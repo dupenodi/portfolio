@@ -7,7 +7,13 @@ const CurvedLoop = ({
   className,
   curveAmount = 400,
   direction = 'left',
-  interactive = true
+  interactive = true,
+  textTransform = 'none',
+  waveMode = 'curve', // 'curve' or 'sine'
+  waveCount = 2,
+  waveAmplitude = 50,
+  waveOffset = 0,
+  wavePhase = 0
 }) => {
   const text = useMemo(() => {
     const hasTrailing = /\s|\u00A0$/.test(marqueeText);
@@ -21,7 +27,32 @@ const CurvedLoop = ({
   const [offset, setOffset] = useState(0);
   const uid = useId();
   const pathId = `curve-${uid}`;
-  const pathD = `M-200,40 Q720,${40 + curveAmount} 1640,40`;
+  
+  // Generate path based on mode
+  const generatePath = () => {
+    const baseY = 40 + waveOffset;
+    
+    if (waveMode === 'sine') {
+      // Generate sine wave path
+      const width = 1840; // Total width from -200 to 1640
+      const segments = Math.max(50, waveCount * 10); // More segments for smoother curves
+      let pathString = `M-200,${baseY}`;
+      
+      for (let i = 1; i <= segments; i++) {
+        const x = -200 + (width * i) / segments;
+        const progress = (i / segments) * waveCount * Math.PI * 2 + wavePhase;
+        const y = baseY + Math.sin(progress) * waveAmplitude;
+        pathString += ` L${x},${y}`;
+      }
+      
+      return pathString;
+    } else {
+      // Original curve mode
+      return `M-200,40 Q720,${40 + curveAmount} 1640,40`;
+    }
+  };
+  
+  const pathD = useMemo(() => generatePath(), [waveMode, waveCount, waveAmplitude, waveOffset, wavePhase, curveAmount]);
 
   const dragRef = useRef(false);
   const lastXRef = useRef(0);
@@ -121,7 +152,7 @@ const CurvedLoop = ({
           <path ref={pathRef} id={pathId} d={pathD} fill="none" stroke="transparent" />
         </defs>
         {ready && (
-          <text fontWeight="bold" xmlSpace="preserve" className={className}>
+          <text fontWeight="bold" xmlSpace="preserve" className={className} style={{ textTransform }}>
             <textPath ref={textPathRef} href={`#${pathId}`} startOffset={offset + 'px'} xmlSpace="preserve">
               {totalText}
             </textPath>

@@ -12,13 +12,12 @@
   height: 150px;
   overflow: visible;
   display: block;
-  font-size: 2rem;
+  font-size: 3rem;
   fill: #ffffff;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   font-weight: 500;
-  text-transform: uppercase;
   line-height: 1;
   letter-spacing: 0.05em;
 }

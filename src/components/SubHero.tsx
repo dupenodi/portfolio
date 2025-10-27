@@ -14,9 +14,14 @@ export default function SubHero() {
       <CurvedLoop 
         marqueeText="Full Stack Developer ✦ Creative Technologist ✦ React Expert ✦ Next.js Specialist ✦ TypeScript Enthusiast ✦"
         speed={1.5}
-        curveAmount={250}
         direction="right"
         interactive={true}
+        textTransform="lowercase"
+        waveMode="sine"
+        waveCount={1}
+        waveAmplitude={90}
+        waveOffset={100}
+        wavePhase={0}
         className="curved-text-arch"
       />
     </motion.div>

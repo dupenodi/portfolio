@@ -1,0 +1,22 @@
+.text-type {
+  display: inline-block;
+  white-space: pre-wrap;
+  color: inherit;
+}
+
+.text-type__cursor {
+  margin-left: 0.25rem;
+  display: inline-block;
+  opacity: 1;
+  animation: blink 1s infinite;
+  color: rgba(196, 181, 253, 0.8);
+}
+
+.text-type__cursor--hidden {
+  display: none;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
